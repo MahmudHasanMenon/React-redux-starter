@@ -1,10 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Post} from '../model/Post';
-import {getAllPosts} from '../services';
+import {getAllPosts, deletePost, addPost, updatePost} from '../services';
 import {createAsyncThunk} from '@reduxjs/toolkit'; 
 
- 
-interface PostsState {
+ interface PostsState {
     posts: Post[];
     loading: boolean;
     error: string | null;
@@ -24,6 +23,22 @@ export const fetchPosts = createAsyncThunk(
         return response as Post[];
     })
 
+export const createPost = createAsyncThunk('post/addpost', async (payload: Post) => {
+    const response = await addPost(payload);
+    console.log('addPost response', response);
+    return response as Post;
+})
+
+export const modifyPost = createAsyncThunk('post/updatedPost', async (payload: Post) => {
+    const response = await updatePost(payload);
+    return response as Post;
+})
+
+export const removePost = createAsyncThunk('post/deletePost', async(id: number) => {
+    await deletePost(id); 
+    return id;
+})
+
 const postsSlice = createSlice({
     name: 'posts',
     initialState,
@@ -42,6 +57,30 @@ const postsSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch posts';
               })
+              .addCase(createPost.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+              })
+              .addCase(createPost.fulfilled, (state, action) => {
+                state.loading = false;
+                state.posts.push(action.payload);
+
+              })
+            .addCase(removePost.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(removePost.fulfilled, (state, action) => {
+                state.loading = false;
+                state.posts = state.posts.filter(post => post.id !== action.payload);
+            }) 
+            .addCase(modifyPost.fulfilled, (state, action) => {
+                state.loading = false;
+                const index = state.posts.findIndex(post => post.id === action.payload.id);
+                if(index !== -1) {
+                    state.posts[index] = action.payload;
+                }
+            })
     },
 })
 

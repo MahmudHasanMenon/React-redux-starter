@@ -1,0 +1,171 @@
+.container {
+    display: flex;
+    width: calc(100dvw - 15px);
+    overflow-x: hidden;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.posts-table-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    height: 32px;
+}
+
+.search-box {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.create-btn {  
+    border-radius: 12px;  
+    display: flex; 
+    justify-content: flex-end;
+}
+.create-btn button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.posts-table { 
+    border-collapse: collapse;
+}
+
+.posts-table thead {
+    background-color: #f2f2f2;
+  }
+
+.posts-table th,
+.posts-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.posts-table th {
+    background-color: #f8f8f8;
+    color: #333;
+    font-weight: 600;
+  }
+
+.posts-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+.edit-btn,
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+.action-btns {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.edit-btn {
+    color: #3498db;
+  }
+  
+  .delete-btn {
+    color: #e74c3c;
+  }
+  
+@media (max-width: 768px) {
+    .posts-table-container {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding:15px;
+    }
+
+    .table-controls {
+        flex-direction: row;
+        align-items: stretch;
+        height: auto;
+        gap: 10px;
+    }
+
+    .search-box {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .create-btn {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+    
+      .create-btn button {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+    
+      .posts-table th,
+      .posts-table td {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+    
+      .edit-btn,
+      .delete-btn {
+        padding: 4px 8px;
+        font-size: 14px;
+      }
+}
+
+@media (max-width: 480px) {
+    .posts-table-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+      }
+    
+      h2 {
+        font-size: 18px;
+      }
+    
+      .create-btn button {
+        font-size: 13px;
+        padding: 6px 10px;
+      }
+    
+      .posts-table th,
+      .posts-table td {
+        font-size: 13px;
+      }
+    
+      .edit-btn,
+      .delete-btn {
+        font-size: 13px;
+      }
+}

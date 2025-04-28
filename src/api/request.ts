@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
     AxiosError,
     AxiosHeaders,
@@ -74,6 +75,38 @@ import axios, {
     const config  = getMergedConfig(options);
 
     return axios.get(url, config)
+    .then(onSuccess)
+    .catch(error => onError(error));
+  }
+
+export const postRequest = async (
+  url: string, 
+  data?: Record<string, any>,
+  options?: AxiosRequestConfig) => {
+
+  const config = getMergedConfig(options);
+
+  return axios.post(url, data, config)
+  .then(onSuccess)
+  .catch(error => onError(error));
+}  
+
+export const putRequest = async (
+  url: string, 
+  data?: Record<string, any>,
+  options?: AxiosRequestConfig) => {
+
+  const config = getMergedConfig(options);
+
+  return axios.put(url, data, config)
+  .then(onSuccess)
+  .catch(error => onError(error));
+}
+
+export const deleteRequest = async ( url: string, options?: AxiosRequestConfig) => {
+    const config  = getMergedConfig(options);
+
+    return axios.delete(url, config)
     .then(onSuccess)
     .catch(error => onError(error));
   }
