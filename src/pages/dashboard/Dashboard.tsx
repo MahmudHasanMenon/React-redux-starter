@@ -1,25 +1,20 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 // import { logout } from "../../store/authSlice";
-import {
-  fetchPosts,
-  removePost,
-  createPost,
-  modifyPost,
-} from "../../store/postsSlice";
+import { removePost, createPost, modifyPost } from "../../store/postsSlice";
 import { useEffect, useState } from "react";
-import { RootState, AppDispatch } from "../../store";
+import { AppDispatch } from "../../store";
 
 import styles from "./Dashboard.module.css";
 import { Post } from "../../model/Post";
 import { PostModal } from "../../components/post/PostModal";
+import { usePosts } from "./hooks/use-posts";
 
 const Dashboard = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, loading } = useSelector(
-    (state: RootState) => state.postsReducer
-  );
+  const { posts, loading } = usePosts();
+
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -33,10 +28,6 @@ const Dashboard = () => {
   }>({ userId: 1, title: "", body: "" });
 
   console.log("Posts:", posts);
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {

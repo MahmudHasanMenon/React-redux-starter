@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 export const AppRoutes = () => {
-  const token = useSelector((state: RootState) => state.auth.token);
+  const token = useSelector((state: RootState) => state.authReducer.token);
   const routes = token ? authenticatedRoutes : unAuthenticatedRoutes;
   return (
     <Suspense fallback={<div>...loading</div>}>
