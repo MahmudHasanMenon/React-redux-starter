@@ -15,8 +15,15 @@ const Dashboard = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { posts, loading } = usePosts();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5;
+
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit">("create");
@@ -138,7 +145,7 @@ const Dashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredPosts.map((post) => (
+            {currentPosts.map((post) => (
               <tr key={post.id}>
                 <td>{post.id}</td>
                 <td>{post.title}</td>
@@ -170,6 +177,27 @@ const Dashboard = () => {
             ))}
           </tbody>
         </table>
+        <div className={styles["pagination-controls"]}>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+
+          <span>Page {currentPage}</span>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) =>
+                prev * postsPerPage < filteredPosts.length ? prev + 1 : prev
+              )
+            }
+            disabled={currentPage * postsPerPage >= filteredPosts.length}
+          >
+            Next
+          </button>
+        </div>
       </div>
       {isModalOpen && (
         <PostModal
