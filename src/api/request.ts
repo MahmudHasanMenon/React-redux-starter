@@ -7,9 +7,10 @@ import axios, {
     RawAxiosRequestHeaders,
   } from 'axios';
   import { getErrorMessage} from './utils';
+  import {API_BASE_URL} from './config';
 
   const DEFAULT_CONFIG: AxiosRequestConfig = {
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: API_BASE_URL,
   };
 
   const getMergedConfig = (options?: AxiosRequestConfig) => {

@@ -17,7 +17,9 @@ import { PostModal } from "../../components/post/PostModal";
 const Dashboard = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, loading } = useSelector((state: RootState) => state.posts);
+  const { posts, loading } = useSelector(
+    (state: RootState) => state.postsReducer
+  );
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -109,7 +111,7 @@ const Dashboard = () => {
       </button> */}
 
       <div className={styles["posts-table-container"]}>
-        <h2>Posts List</h2>
+        <h2 data-testid="posts-list-title">Posts List</h2>
 
         <h2>Total records found {filteredPosts.length} </h2>
 
@@ -120,6 +122,7 @@ const Dashboard = () => {
             className="search-box"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            data-testid="search-input"
           />
           <div className={styles["create-btn"]}>
             <button
@@ -128,6 +131,7 @@ const Dashboard = () => {
                 setModalMode("create");
                 setIsModalOpen(true);
               }}
+              data-testid="create-post-button"
             >
               Create New Post
             </button>
