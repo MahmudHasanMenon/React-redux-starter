@@ -9,11 +9,23 @@ import styles from "./Dashboard.module.css";
 import { Post } from "../../model/Post";
 import { PostModal } from "../../components/post/PostModal";
 import { usePosts } from "./hooks/use-posts";
+import {
+  useGetPostsQuery,
+  useCreatePostMutation,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+} from "../../store/apiSlice";
 
 const Dashboard = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { posts, loading } = usePosts();
+  // const { posts, loading } = usePosts();
+
+  const { data: posts = [], isLoading: loading } = useGetPostsQuery();
+
+  const [createPost] = useCreatePostMutation();
+  const [updatePost] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
@@ -34,7 +46,7 @@ const Dashboard = () => {
     body: string;
   }>({ userId: 1, title: "", body: "" });
 
-  console.log("Posts:", posts);
+  console.log("RTK QueryPosts:", posts);
 
   useEffect(() => {
     if (searchTerm.trim() === "") {
@@ -50,7 +62,7 @@ const Dashboard = () => {
     }
   }, [posts, searchTerm]);
 
-  const handleAddPost = (postData: Post) => {
+  const handleAddPost = async (postData: Post) => {
     const payload: Post = {
       userId: 1,
       id: Math.floor(Math.random() * 1000),
@@ -58,7 +70,8 @@ const Dashboard = () => {
       body: postData.body,
     };
 
-    dispatch(createPost(payload));
+    // dispatch(createPost(payload));
+    await createPost(payload).unwrap();
 
     setSelectedPostData({ userId: 1, title: "", body: "" });
     setModalMode("create");
@@ -73,12 +86,14 @@ const Dashboard = () => {
       if (!post) return;
       // Dispatch delete action here
       if (post.id !== undefined) {
-        dispatch(removePost(post.id));
+        // dispatch(removePost(post.id));
+
+        deletePost(post.id!).unwrap();
       }
     }
   };
 
-  const handleEditPost = (post: Post) => {
+  const handleEditPost = async (post: Post) => {
     if (!post) return;
 
     const updatedPost = {
@@ -87,7 +102,10 @@ const Dashboard = () => {
       body: post.body,
     };
 
-    dispatch(modifyPost(updatedPost));
+    // dispatch(modifyPost(updatedPost));
+
+    await updatePost(updatedPost).unwrap();
+
     setSelectedPostData({ userId: 1, title: "", body: "" });
     setModalMode("create");
     setIsModalOpen(false);
